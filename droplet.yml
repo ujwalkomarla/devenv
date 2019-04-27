@@ -1,0 +1,4 @@
+---
+- hosts: droplets
+  roles:
+    - role: nginx

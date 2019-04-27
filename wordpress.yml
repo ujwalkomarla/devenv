@@ -1,0 +1,7 @@
+---
+- hosts: wordpress_hosts
+  roles:
+    - nginx
+    - php
+    - mysql
+    - wordpress
