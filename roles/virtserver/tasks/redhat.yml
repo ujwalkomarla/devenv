@@ -1,0 +1,10 @@
+---
+- name: Install KVM
+  yum: 
+    name: "{{ yum_list_kvm }}"
+    state: installed
+
+- name: Install network manager needed libs
+  yum:
+    name: "{{ yum_list_networkmanager_libs }}"
+    state: installed

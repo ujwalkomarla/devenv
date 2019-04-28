@@ -1,0 +1,41 @@
+---
+- name: Gather BIOS virtualization setting
+  command: lscpu | grep Virtualization
+  register: virtual_enabled
+
+- name: Test for Virtualization
+  assert:
+    that:
+      - "'VT-x' in virtual_enabled.stdout"
+  msg: "Please enable virtualization in your BIOS"
+
+- name: Yum Install CentOS("{{ ansible_facts['ansible_os_family'] ]}}") specific
+  import_tasks: redhat.yml
+  when: ansible_facts['ansible_os_family']|lower == 'redhat'
+
+- name: Start libvirtd service
+  systemd:
+    name: libvirtd
+    enabled: yes
+    state: started
+
+- name: Check KVM installation
+  command: lsmod | grep -i kvm
+  register: kvm_enabled
+
+- name: Reboot if required
+  reboot:
+  when: "'kvm' not in kvm_enabled.stdout"
+
+- name: Verify KVM installation
+  assert:
+    that:
+      - "'kvm' in kvm_enabled.stdout"
+
+# - name: Configure Linux Network Bridge
+
+- name: Restart Network Manager
+  systemd:
+    name: NetworkManager
+    state: restarted
+

@@ -1,0 +1,14 @@
+---
+yum_list_kvm:
+  - qemu-kvm
+  - libvirt
+  - libvirt-python
+  - libguestfs-tools
+  - virt-install
+
+yum_list_networkmanager_libs:
+  - NetworkManager-glib
+  - libnm-qt-devel.x86_64
+  - nm-connection-editor.x86_64
+  - libsemanage-python
+  - policycoreutils-python
